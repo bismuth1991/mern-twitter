@@ -1,8 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const passport = require('passport');
 
 const app = express();
-app.get('/', (req, res) => res.send('Hello World'));
+
+app.use(passport.initialize());
+require('./config/passport')(passport);
 
 const bodyParser = require('body-parser');
 
