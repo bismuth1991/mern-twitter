@@ -2,8 +2,10 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const keys = require('../../config/keys');
+const { secretOrKey } = require('../../config/keys');
 const User = require('../../models/User');
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput = require('../../validation/login');
 
 const router = express.Router();
 
@@ -35,7 +37,7 @@ router.post('/register', (req, res) => {
             .then((savedUser) => {
               const payload = { id: savedUser.id, handle: savedUser.handle };
 
-              jwt.sign(payload, keys.secretOrKey, { expiresIn: 3600 }, (jwtErr, token) => {
+              jwt.sign(payload, secretOrKey, { expiresIn: 3600 }, (jwtErr, token) => {
                 res.json({
                   success: true,
                   token: `Bearer ${token}`,
@@ -49,7 +51,7 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  const { errors, isValid } = validateRegisterInput(req.body);
+  const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {
     return res.status(400).json(errors);
@@ -61,15 +63,15 @@ router.post('/login', (req, res) => {
     .then((user) => {
       if (!user) {
         errors.email = 'This user does not exist';
-        return res.status(400).json(errors);
+        return res.status(404).json(errors);
       }
 
       bcrypt.compare(password, user.password)
         .then((isMatch) => {
           if (isMatch) {
-            const payload = { id: user.id, handle: user.handle };
+            const payload = { id: user.id, handle: user.handle, email: user.email };
 
-            jwt.sign(payload, keys.secretOrKey, { expiresIn: 3600 }, (err, token) => {
+            jwt.sign(payload, secretOrKey, { expiresIn: 3600 }, (err, token) => {
               res.json({
                 success: true,
                 token: `Bearer ${token}`,
