@@ -22,7 +22,7 @@ class SignupForm extends React.Component {
     const { loggedIn, errors } = nextProps;
 
     if (loggedIn === true) {
-      history.push('/login');
+      history.push('/tweets');
     }
     this.setState({ errors });
   }

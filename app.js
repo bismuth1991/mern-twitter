@@ -4,6 +4,13 @@ const passport = require('passport');
 
 const app = express();
 
+// enable CORS
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
 const bodyParser = require('body-parser');
 const { mongoURI } = require('./config/keys');
 

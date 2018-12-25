@@ -24,8 +24,23 @@ export const receiveSessionErrors = errors => ({
   errors,
 });
 
+const processToken = (res) => {
+  const { token } = res.data;
+  localStorage.setItem('jwtToken', token);
+  APIUtil.setAuthToken(token);
+
+  return jwtDecode(token);
+};
+
 export const login = user => dispatch => (
   APIUtil.login(user)
+    .then(res => dispatch(receiveCurrentUser(processToken(res))))
+    .catch(err => dispatch(receiveSessionErrors(err.response.data)))
+    // .catch(err => console.log(err))
+);
+
+export const signup = user => dispatch => (
+  APIUtil.signup(user)
     .then((res) => {
       const { token } = res.data;
       localStorage.setItem('jwtToken', token);
@@ -34,14 +49,6 @@ export const login = user => dispatch => (
       dispatch(receiveCurrentUser(decoded));
     })
     .catch(err => dispatch(receiveSessionErrors(err.response.data)))
-);
-
-export const signup = user => dispatch => (
-  APIUtil.signup(user)
-    .then(
-      newUser => dispatch(login(newUser)),
-      err => dispatch(receiveSessionErrors(err.response.data)),
-    )
 );
 
 export const logout = () => (dispatch) => {

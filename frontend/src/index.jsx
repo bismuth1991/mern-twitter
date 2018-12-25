@@ -2,12 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import jwtDecode from 'jwt-decode';
 
+import axios from 'axios';
 import Root from './components/root';
 import configureStore from './store/store';
 import { setAuthToken } from './util/session_api_util';
 import { logout } from './actions/session_actions';
 
+
 document.addEventListener('DOMContentLoaded', () => {
+  window.axios = axios;
+
   let store;
 
   const { jwtToken } = localStorage;
