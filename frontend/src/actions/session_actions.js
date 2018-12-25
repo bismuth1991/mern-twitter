@@ -6,10 +6,6 @@ export const RECEIVE_USER_LOGIN = 'RECEIVE_USER_LOGIN';
 export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
 export const RECEIVE_SESSION_ERRORS = 'RECEIVE_SESSION_ERRORS';
 
-// export const loginUser = () => ({
-//   type: RECEIVE_USER_LOGIN,
-// });
-
 export const logoutUser = () => ({
   type: RECEIVE_USER_LOGOUT,
 });
@@ -36,18 +32,11 @@ export const login = user => dispatch => (
   APIUtil.login(user)
     .then(res => dispatch(receiveCurrentUser(processToken(res))))
     .catch(err => dispatch(receiveSessionErrors(err.response.data)))
-    // .catch(err => console.log(err))
 );
 
 export const signup = user => dispatch => (
   APIUtil.signup(user)
-    .then((res) => {
-      const { token } = res.data;
-      localStorage.setItem('jwtToken', token);
-      APIUtil.setAuthToken(token);
-      const decoded = jwtDecode(token);
-      dispatch(receiveCurrentUser(decoded));
-    })
+    .then(res => dispatch(receiveCurrentUser(processToken(res))))
     .catch(err => dispatch(receiveSessionErrors(err.response.data)))
 );
 

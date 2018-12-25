@@ -82,8 +82,9 @@ class LoginForm extends React.Component {
 
 LoginForm.propTypes = {
   loggedIn: bool.isRequired,
-  errors: instanceOf(Object).isRequired,
   login: func.isRequired,
+  errors: instanceOf(Object).isRequired,
+  history: instanceOf(Object).isRequired,
 };
 
 export default withRouter(LoginForm);

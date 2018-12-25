@@ -96,6 +96,7 @@ SignupForm.propTypes = {
   loggedIn: bool.isRequired,
   signup: func.isRequired,
   errors: instanceOf(Object).isRequired,
+  history: instanceOf(Object).isRequired,
 };
 
 export default withRouter(SignupForm);
