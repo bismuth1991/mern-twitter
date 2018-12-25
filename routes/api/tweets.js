@@ -32,7 +32,8 @@ router.post('/',
     const { errors, isValid } = validateTweetInput(req.body);
 
     if (!isValid) {
-      return res.status(400).json(errors);
+      res.status(400).json(errors);
+      return;
     }
 
     const newTweet = new Tweet({
