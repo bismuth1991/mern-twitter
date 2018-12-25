@@ -10,9 +10,9 @@ const mapDispatchToProps = dispatch => ({
   login: user => dispatch(login(user)),
 });
 
-const LoginFormContainer = connect(
+const loginFormContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(LoginForm);
 
-export default LoginFormContainer;
+export default loginFormContainer;
