@@ -20,7 +20,7 @@ class LoginForm extends React.Component {
     const { history } = this.props;
     const { errors } = nextProps;
 
-    if (Object.assign(errors).length === 0) {
+    if (Object.values(errors).length === 0) {
       history.push('/tweets');
     }
     this.setState({ errors });
