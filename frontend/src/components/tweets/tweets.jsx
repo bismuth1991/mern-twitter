@@ -22,7 +22,7 @@ class Tweets extends React.Component {
       <div>
         <h2>All Tweets</h2>
         {tweets.map(tweet => (
-          <TweetBox key={tweet.id} text={tweet.text} />
+          <TweetBox key={tweet.user} text={tweet.text} />
         ))}
       </div>
     );
